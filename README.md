@@ -43,4 +43,4 @@ By adding the credentials of the MySQL database from the file application-test.p
       mySQLContainer.start();
   }
 
-``
+```
