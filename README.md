@@ -10,7 +10,7 @@ Testcontainers is a Java library that supports JUnit tests, providing lightweigh
 
 ## Implementation 
 
-
+As the first step is to declaire the annotation on the test class, **@Testcontainers**
 
 
 ```java
@@ -19,3 +19,28 @@ Testcontainers is a Java library that supports JUnit tests, providing lightweigh
   @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
   class UserRepositoryTest
 ```
+
+## Setting the container by the Database.
+
+```java
+  @Container
+  private static final MySQLContainer mySQLContainer = new MySQLContainer("mysql:latest");
+```
+
+## Setting the credentials of the database 
+
+By adding the credentials of the MySQL database from the file application-test.properties.
+
+```java
+  @DynamicPropertySource
+  public static void overrideProps(DynamicPropertyRegistry registry) {
+      registry.add("application-test.properties/spring.datasource.url", mySQLContainer::getJdbcUrl);
+      registry.add("application-test.properties/spring.datasource.username", mySQLContainer::getUsername);
+      registry.add("application-test.properties/spring.datasource.password", mySQLContainer::getPassword);
+  }
+
+  static {
+      mySQLContainer.start();
+  }
+
+``
