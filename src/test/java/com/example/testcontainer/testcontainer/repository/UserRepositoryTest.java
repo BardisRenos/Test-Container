@@ -60,7 +60,7 @@ class UserRepositoryTest {
 
     @Test
     void saveUserTest() {
-        User user = new User(1L, "Renos", "Renos87", "Bardis", "renos@gmail.com");
+        User user = new User(3L, "John", "John75", "Smith", "john@gmail.com");
         User userRes = userRepository.save(user);
 
         assertThat(user).usingRecursiveComparison().isEqualTo(userRes);
