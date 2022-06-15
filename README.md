@@ -44,3 +44,45 @@ By adding the credentials of the MySQL database from the file application-test.p
   }
 
 ```
+
+## Test cases
+
+Setting the test cases. 
+
+```java
+    @BeforeEach
+    void init() {
+        User user1 = new User(1L, "Renos", "Renos87", "Bardis", "renos@gmail.com");
+        User user2 = new User(2L, "Nikos", "Nikos91", "Papas", "nikos@gmail.com");
+
+        List<User> listOfUser = new ArrayList<>();
+        listOfUser.add(user1);
+        listOfUser.add(user2);
+
+        userRepository.saveAll(listOfUser);
+    }
+
+
+    @AfterEach
+    void delete() {
+        userRepository.deleteAll();
+    }
+    
+```
+
+```java
+    @Test
+    void saveUserTest() {
+        User user = new User(3L, "John", "John75", "Smith", "john@gmail.com");
+        User userRes = userRepository.save(user);
+
+        assertThat(user).usingRecursiveComparison().isEqualTo(userRes);
+    }
+
+    @Test
+    void getAllUsersTest() {
+        List<User> listRes = userRepository.findAll();
+
+        assertThat(listRes).hasSize(2);
+    }
+```
