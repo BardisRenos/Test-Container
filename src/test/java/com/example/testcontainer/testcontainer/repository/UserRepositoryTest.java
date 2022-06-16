@@ -19,6 +19,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * This class tests the Repository layer of User. On the TestContainer environment.
+ */
 @DataJpaTest
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -41,6 +44,9 @@ class UserRepositoryTest {
         mySQLContainer.start();
     }
 
+    /**
+     * Before each test method the database is initialised with some data.
+     */
     @BeforeEach
     void init() {
         User user1 = new User(1L, "Renos", "Renos87", "Bardis", "renos@gmail.com");
@@ -53,11 +59,17 @@ class UserRepositoryTest {
         userRepository.saveAll(listOfUser);
     }
 
+    /**
+     * After each test method the database is cleared.
+     */
     @AfterEach
     void delete() {
         userRepository.deleteAll();
     }
 
+    /**
+     * This method checks if the rest api end point inserts correctly a User entity.
+     */
     @Test
     void saveUserTest() {
         User user = new User(3L, "John", "John75", "Smith", "john@gmail.com");
@@ -66,6 +78,9 @@ class UserRepositoryTest {
         assertThat(user).usingRecursiveComparison().isEqualTo(userRes);
     }
 
+    /**
+     * This method checks if all Users entities are retrieved from the database.
+     */
     @Test
     void getAllUsersTest() {
         List<User> listRes = userRepository.findAll();
@@ -73,6 +88,9 @@ class UserRepositoryTest {
         assertThat(listRes).hasSize(2);
     }
 
+    /**
+     * This method checks if a User entity is retrieved from the database by a given Last Name.
+     */
     @Test
     void getUserByLastName() {
         User user = userRepository.findUserByLastName("Bardis");
@@ -80,6 +98,9 @@ class UserRepositoryTest {
         assertThat(user.getLastName()).isEqualTo("Bardis");
     }
 
+    /**
+     * This method checks if a user entity is retrieved from the database by a given ID.
+     */
     @Test
     void getUserByUserId() {
         User user = userRepository.findUserByUserId(1L);

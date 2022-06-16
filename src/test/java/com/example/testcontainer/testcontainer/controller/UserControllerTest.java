@@ -2,36 +2,26 @@ package com.example.testcontainer.testcontainer.controller;
 
 import com.example.testcontainer.testcontainer.resource.User;
 import com.example.testcontainer.testcontainer.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static net.bytebuddy.matcher.ElementMatchers.is;
-import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
+/**
+ * This class tests the Controller layer of User
+ */
 @WebMvcTest(controllers = UserController.class)
 @ActiveProfiles("Controller Test")
 class UserControllerTest {
@@ -40,22 +30,20 @@ class UserControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private WebApplicationContext context;
-
-    @Autowired
     private UserController userController;
 
     @MockBean
     private UserService userService;
 
-    ObjectMapper om = new ObjectMapper();
 
     @BeforeEach
     void setUp() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
         this.userController = new UserController(this.userService);
     }
 
+    /**
+     * This method checks if all users are retrieved correctly.
+     */
     @Test
     void getAllUsersTest() {
         User user1 = new User(1L, "Renos", "Renos87", "Bardis", "renos@gmail.com");
@@ -73,6 +61,9 @@ class UserControllerTest {
                 ()->assertEquals("Renos87", usersResponse.get(0).getUserName()));
     }
 
+    /**
+     * This method checks if a User entity is correctly retrieved by a given ID number
+     */
     @Test
     void getUserByIdTest() {
         User user = new User(1L, "Renos", "Renos87", "Bardis", "renos@gmail.com");
@@ -87,6 +78,9 @@ class UserControllerTest {
                 ()->assertEquals("Renos87", usersResponse.getUserName()));
     }
 
+    /**
+     * This method checks if a User entity is correctly retrieved by a given Last Name.
+     */
     @Test
     void getUserByLastName() {
         User user = new User(1L, "Nikos", "Nikos91", "Papas", "nikos@gmail.com");
@@ -101,6 +95,9 @@ class UserControllerTest {
                 ()->assertEquals("Nikos91", usersResponse.getUserName()));
     }
 
+    /**
+     * This method checks if a User entity is correctly added into the database table.
+     */
     @Test
     void addUser() {
         User user = new User(1L, "Renos", "Renos87", "Bardis", "renos@gmail.com");
