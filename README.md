@@ -47,7 +47,7 @@ By adding the credentials of the MySQL database from the file application-test.p
 
 ## Test cases
 
-Setting the test cases. 
+Setting the data on the test database before each test case. 
 
 ```java
     @BeforeEach
@@ -69,6 +69,8 @@ Setting the test cases.
     }
     
 ```
+
+Adding a test case. Here the code tests when to check if the application inserts properly a User entity.
 
 ```java
     @Test
